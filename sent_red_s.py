@@ -3,20 +3,25 @@ import streamlit as st
 import plotly.graph_objects as go
 from nltk.sentiment import SentimentIntensityAnalyzer
 import praw
+import os
 
-
-
+client_id = os.environ.get("client_id")
+client_secret = os.environ.get("client_secret")
+username = os.environ.get("username")
+password = os.environ.get("password")
+user_agent = os.environ.get("user_agent")
 
 
 
 # Create a function to get comments from a subreddit
 #@st.cache
 def get_subreddit_comments(subreddit_name, num_comments=1000):
-    reddit = praw.Reddit(client_id=st.secrets('client_id'), 
-                         client_secret=st.secrets('client_secret'),
-                         username=st.secrets('username'), 
-                         password=st.secrets('password'), 
-                         user_agent=st.secrets('user_agent'))
+    reddit = praw.Reddit(client_id=client_id, 
+                         client_secret=client_secret,
+                         username=username, 
+                         password=password, 
+                         user_agent=user_agent)
+
     subreddit = reddit.subreddit(subreddit_name)
     comments = []
     for comment in subreddit.comments(limit=num_comments):
